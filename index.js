@@ -1,9 +1,5 @@
 const express = require('express')
 const app = express()
-app.use(express.static('dist'))
-
-const cors = require('cors')
-app.use(cors())
 
 let notes = [
   {
@@ -31,9 +27,9 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
-app.use(express.json())
 app.use(requestLogger)
-
+app.use(express.static('dist'))
+app.use(express.json())
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
@@ -46,7 +42,6 @@ app.get('/api/notes', (request, response) => {
 app.get('/api/notes/:id', (request, response) => {
   const id = request.params.id
   const note = notes.find(note => note.id === id)
-
 
   if (note) {
     response.json(note)
