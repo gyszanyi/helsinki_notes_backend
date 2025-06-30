@@ -60,7 +60,8 @@ app.put('/api/notes/:id', (request, response) => {
     const changedNote = {...note, important: !note.important}
     notes = notes.filter(note => note.id !== id)
     notes = notes.concat(changedNote)
-    response.json(note)
+    const newNote = notes.find(note => note.id === id)
+    response.json(newNote)
   } else {
     response.status(404).end()
   }
